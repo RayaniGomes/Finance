@@ -1,16 +1,17 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Welcome from '../pages/Welcome';
+import Welcome from "../pages/Welcome";
 import Login from "../pages/Login";
 import Cadastro from "../pages/Cadastro";
 import Home from "../pages/Home";
 import NovaConta from "../pages/NovaConta";
+import NovaDespesa from "../pages/NovaDespesa";
 
 const Stack = createNativeStackNavigator();
 
 export default function Routes() {
     return (
         <Stack.Navigator>
-            <Stack.Screen 
+            {/* <Stack.Screen 
                 name="Welcome"
                 component={Welcome}
                 options={{headerShown: false}}
@@ -36,6 +37,11 @@ export default function Routes() {
             <Stack.Screen 
                 name="NovaConta"
                 component={NovaConta}
+                options={{headerShown: false}}
+            /> */}
+            <Stack.Screen 
+                name="NovaDespesa"
+                component={NovaDespesa}
                 options={{headerShown: false}}
             />
         </Stack.Navigator>
