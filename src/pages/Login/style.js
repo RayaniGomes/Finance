@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { cores } from "../../componets/Cores";
 
 export const style = StyleSheet.create({
     container: {
@@ -10,7 +11,7 @@ export const style = StyleSheet.create({
         height: "100%",
         position: 'absolute',
         alignItems: 'center',
-        marginVertical: 100,
+        marginVertical: 30,
     },
 
     containerLogin: {
@@ -24,24 +25,22 @@ export const style = StyleSheet.create({
     },
 
     inputText: {
-        color: '#EFF1EE',
+        color: cores.branco,
         fontSize: 14,
         fontWeight: '400',
         marginTop: 20,
-        marginBottom: 5,
-        textAlign: 'left'
+        textAlign: 'left',
     },
 
     input: {
         width: 300,
-        height: 50,
+        height: 40,
         backgroundColor: '#EFF1EE1A',
         paddingLeft: 10,
         borderRadius: 10,
         borderBottomWidth: 0.5,
-        borderColor: '#EFF1EE',
-        marginBottom: 10,
-        placeholderTextColor: '#EFF1EE'
+        borderColor: cores.branco,
+        placeholderTextColor: cores.branco,
     },
 
     containerButtons: {
@@ -53,8 +52,8 @@ export const style = StyleSheet.create({
     },
 
     button: {
-        width: 130,
-        height: 50,
+        width: 120,
+        height: 40,
         alignItems: 'center',
         justifyContent:'center',
         margin: 50,
@@ -62,13 +61,14 @@ export const style = StyleSheet.create({
     },
     
     buttonText: {
-        color: '#EFF1EE',
+        color: cores.branco,
         fontSize: 14,
         fontWeight: '500',
     },
     
     containerRegistrar: {
         flex: 1,
+        marginBottom: 60,
     },
     
     registrarText: {
@@ -76,5 +76,5 @@ export const style = StyleSheet.create({
         fontSize: 14,
         fontWeight: '400',
         textDecorationLine: 'underline',
-    }
+    },
 })

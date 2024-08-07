@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { cores } from "../../componets/Cores";
 
 export const style = StyleSheet.create({
     container: {
@@ -40,8 +41,7 @@ export const style = StyleSheet.create({
     },
 
     buttonText: {
-        color: '#EFF1EE',
-        fontFamily: 'Inter',
+        color: cores.branco,
         fontSize: 14,
         fontWeight: '500',
     }

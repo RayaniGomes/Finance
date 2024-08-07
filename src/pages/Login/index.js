@@ -2,16 +2,16 @@ import React from "react";
 import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
-
-import { style } from "../../Styles/styleLogin";
+import { cores } from "../../componets/Cores";
+import { style } from "./style";
 
 export default function Login() {
     const navigation = useNavigation();
     return (
         <View style={style.container}>
-            <Image source={require('../../../assets/backgroundLogin.png')} />
+            <Image source={require('../../../assets/image/backgroundLogin.png')} />
             <View style={style.containerBody}>
-                <Image source={require('../../../assets/logoPequena.png')} />
+                <Image source={require('../../../assets/image/logoPequena.png')} />
                 <View style={style.containerLogin}>
                     <View style={style.containerInput}>
                         <Text style={style.inputText}>E-mail:</Text>
@@ -28,9 +28,9 @@ export default function Login() {
                         />
                     </View>
                     <View style={style.containerButtons}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => navigation.navigate('Home')}>
                             <LinearGradient
-                                colors={['#FA1160', '#F87A30']}
+                                colors={[cores.pink, cores.laranja]}
                                 start={{ x: 0, y: 0 }}
                                 end={{ x: 1, y: 0 }}
                                 style={style.button}

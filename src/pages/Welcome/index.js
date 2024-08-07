@@ -2,18 +2,18 @@ import React from "react";
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
-
-import { style } from "../../Styles/styleWelcome";
+import { cores } from "../../componets/Cores";
+import {style} from "./style";
 
 export default function Welcome() {
     const navigation = useNavigation();
     return (
         <View style={style.container}>
-            <Image source={require('../../../assets/background.png')} />
+            <Image source={require('../../../assets/image/background.png')} />
             <View style={style.containerBody}>
                 <View style={style.containerLogo}>
                     <Image
-                        source={require('../../../assets/logo.png')}
+                        source={require('../../../assets/image/logo.png')}
                         style={{ width: '100%' }}
                         resizeMode="contain"
                     />
@@ -21,7 +21,7 @@ export default function Welcome() {
                 <View style={style.containerButtons}>
                     <TouchableOpacity onPress={() => navigation.navigate('Login')}>
                         <LinearGradient
-                            colors={['#FA1160', '#F87A30']}
+                            colors={[cores.pink, cores.laranja]}
                             start={{ x: 0, y: 0 }}
                             end={{ x: 1, y: 0 }}
                             style={style.button}
@@ -31,7 +31,7 @@ export default function Welcome() {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigation.navigate('Cadastro')}>
                         <LinearGradient
-                            colors={['#FA1160', '#F87A30']}
+                            colors={[cores.pink, cores.laranja]}
                             start={{ x: 0, y: 0 }}
                             end={{ x: 1, y: 0 }}
                             style={style.button}

@@ -1,16 +1,16 @@
 import React from "react";
 import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
-import * as Animatable from 'react-native-animatable';
 
-import { style } from "../../Styles/styleLogin";
+import { style } from "../Login/style";
+import { cores } from "../../componets/Cores";
 
 export default function Login() {
     return (
         <View style={style.container}>
-            <Image source={require('../../../assets/backgroundLogin.png')} />
+            <Image source={require('../../../assets/image/backgroundLogin.png')} />
             <View style={style.containerBody}>
-                <Image source={require('../../../assets/logoPequena.png')} />
+                <Image source={require('../../../assets/image/logoPequena.png')} />
                 <View style={style.containerLogin}>
                     <View style={style.containerInput}>
                         <Text style={style.inputText}>Nome:</Text>
@@ -23,7 +23,7 @@ export default function Login() {
                     <View style={style.containerButtons}>
                         <TouchableOpacity>
                             <LinearGradient
-                                colors={['#FA1160', '#F87A30']}
+                                colors={[cores.pink, cores.laranja]}
                                 start={{ x: 0, y: 0 }}
                                 end={{ x: 1, y: 0 }}
                                 style={style.button}
