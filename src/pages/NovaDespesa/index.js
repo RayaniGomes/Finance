@@ -5,8 +5,8 @@ import { TextInputMask } from 'react-native-masked-text';
 import { RadioButton, Text as PaperText } from 'react-native-paper';
 
 import { styles } from './style';
-import { cores } from '../../componets/Cores';
-import Header from '../../componets/Header';
+import { cores } from '../../components/Cores';
+import Header from '../../components/Header';
 
 
 
@@ -65,7 +65,7 @@ export default function NovaDespesa() {
                         />
                     </View>
                     <View style={{ width: "45%" }}>
-                        <Text style={styles.label}>Pacrcelas</Text>
+                        <Text style={styles.label}>Parcelas</Text>
                         <TextInputMask
                             style={styles.input}
                             type={'custom'}

@@ -3,10 +3,10 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-nativ
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { styles  } from './style';
-import { cores } from '../../componets/Cores';
-import Header from '../../componets/Header';
-import Bancos from '../../componets/Bancos';
-import TipoConta from '../../componets/TipoConta';
+import { cores } from '../../components/Cores';
+import Header from '../../components/Header';
+import Bancos from '../../components/Bancos';
+import TipoConta from '../../components/TipoConta';
 
 export default function NovaConta() {
     const [valorFormatado, setValorFormatado] = useState('');

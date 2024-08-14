@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { cores } from "../../componets/Cores";
+import { cores } from "../../components/Cores";
 
 export const style = StyleSheet.create({
     container: {

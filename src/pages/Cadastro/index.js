@@ -3,7 +3,7 @@ import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { style } from "../Login/style";
-import { cores } from "../../componets/Cores";
+import { cores } from "../../components/Cores";
 
 export default function Login() {
     return (

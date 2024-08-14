@@ -1,25 +1,31 @@
 import React, { useState } from 'react';
 import { View, Text, Image, Modal, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 
-import { cores } from '../../componets/Cores';
+import { cores } from '../Cores';
 
 const bancosIcons = '../../../assets/image/bancosIcons/';
 
 const bancos = [
-    { label: 'Banco do Brasil', value: 'bb', icon: require(`${bancosIcons}bb.png`) },
-    { label: 'Banco Pan', value: 'pan', icon: require(`${bancosIcons}pan.png`) },
-    { label: 'Bradesco', value: 'bradesco', icon: require(`${bancosIcons}bradesco.png`) },
-    { label: 'Caixa Economica', value: 'caixa', icon: require(`${bancosIcons}caixa.png`) },
-    { label: 'Itaú', value: 'itau', icon: require(`${bancosIcons}itau.png`) },
-    { label: 'Mercado Pago', value: 'mercado_pago', icon: require(`${bancosIcons}mercado.png`) },
-    { label: 'Nubank', value: 'nubank', icon: require(`${bancosIcons}nubank.png`) },
-    { label: 'Santander', value: 'santander', icon: require(`${bancosIcons}santander.png`) },
-    { label: 'Will Bank', value: 'will_bank', icon: require(`${bancosIcons}will.png`) },
+    {
+        id: 1,
+        label: 'Conta corrente',
+    },
+    {
+        id: 2,
+        label: 'Conta salário',
+    },
+    {
+        id: 3,
+        label: 'Conta de pagamentos',
+    },
+    {
+        id: 4,
+        label: 'Conta polpança',
+    },
 ];
 
 const PickerItem = ({ label, icon, onPress }) => (
     <TouchableOpacity onPress={onPress} style={styles.pickerItemContainer}>
-        <Image source={icon} style={styles.pickerItemIcon} />
         <Text style={styles.pickerItemText}>{label}</Text>
     </TouchableOpacity>
 );
@@ -36,9 +42,9 @@ export default function NovaConta() {
     return (
         <View style={styles.container}>
             <View style={styles.pickerContainer}>
-                <Text style={styles.label}>Banco</Text>
+                <Text style={styles.label}>Tipo de conta</Text>
                 <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.pickerButton}>
-                    <Text style={styles.pickerButtonText}>{ selectedLabel || 'Selecione um banco'}</Text>
+                    <Text style={styles.pickerButtonText}>{selectedLabel || 'Selecione um banco'}</Text>
                     <Image source={require('../../../assets/image/arrowUp.png')} />
                 </TouchableOpacity>
                 <Modal
@@ -52,7 +58,6 @@ export default function NovaConta() {
                             renderItem={({ item }) => (
                                 <PickerItem
                                     label={item.label}
-                                    icon={item.icon}
                                     onPress={() => handleSelect(item.label)}
                                 />
                             )}
@@ -66,9 +71,9 @@ export default function NovaConta() {
 }
 
 const styles = StyleSheet.create({
-     pickerContainer: {
+    pickerContainer: {
         justifyContent: 'center',
-        margin: 32,
+        marginHorizontal: 32,
     },
 
     label: {
@@ -85,24 +90,16 @@ const styles = StyleSheet.create({
         borderBottomColor: cores.branco,
         borderBottomWidth: 1,
     },
-    
-    pickerItemIcon: {
-        width: 30,
-        height: 30,
-        marginRight: 10,
-        borderRadius: 5,
-        resizeMode: 'cover',
-    },
-    
+
     pickerItemText: {
         fontSize: 14,
         fontWeight: '400',
         color: cores.branco,
     },
-    
+
     modalContainer: {
         width: "81%",
-        top: 190,
+        top: 280,
         left: 38,
         justifyContent: 'center',
         padding: 20,
@@ -113,13 +110,13 @@ const styles = StyleSheet.create({
 
     pickerButton: {
         paddingVertical: 5,
-        flexDirection: 'row', 
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         borderBottomColor: cores.branco,
         borderBottomWidth: 1,
     },
-       
+
     pickerButtonText: {
         fontSize: 14,
         fontWeight: '400',

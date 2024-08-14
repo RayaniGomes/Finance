@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, Image, TextInput, TouchableOpacity } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
-import { cores } from "../../componets/Cores";
+import { cores } from "../../components/Cores";
 import { style } from "./style";
 
 export default function Login() {

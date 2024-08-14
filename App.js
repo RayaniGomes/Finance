@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
-import { cores } from './src/componets/Cores';
+import { cores } from './src/components/Cores';
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
 

@@ -3,10 +3,10 @@ import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { style } from "./style";
-import HeaderHome from "../../componets/HeaderHome";
-import Balace from "../../componets/Balace";
-import Contas from "../../componets/Contas";
-import UltimasMovimentacoes from "../../componets/UltimasMovimentações"
+import HeaderHome from "../../components/HeaderHome";
+import Balace from "../../components/Balace";
+import Contas from "../../components/Contas";
+import UltimasMovimentacoes from "../../components/UltimasMovimentações"
 
 const bancosIcons = '../../../assets/image/bancosIcons/';
 
@@ -80,6 +80,7 @@ export default function Home() {
     const navigation = useNavigation();
     return (
         <View style={style.container} >
+
             <HeaderHome nome="Nome do usuário" />
 
             <Balace saldo="1.000,00" despesas="500,00" />
@@ -101,7 +102,13 @@ export default function Home() {
             </View>
 
             <View style={style.sessao}>
-                <Text style={style.title}>Ultimas movimentações</Text>
+
+                <View style={style.containerLegenda}>
+                    <Text style={style.title}>Despesas</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate('NovaDespesa')}>
+                        <Image source={require('../../../assets/image/mais.png')} />
+                    </TouchableOpacity>
+                </View>
 
                 <FlatList
                     style={style.list}

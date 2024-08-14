@@ -19,7 +19,6 @@ export default function Movimentacao({ data }) {
 
 const style = StyleSheet.create({
     container: {
-        flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         flexDirection: 'row',
