@@ -53,7 +53,7 @@ export default function NovaConta() {
 
             if (response.status === 200) {
                 Alert.alert('Sucesso', 'Conta criada com sucesso!');
-                navigation.goBack(); // ou navigation.navigate('Home');
+                navigation.goBack();
             } else {
                 Alert.alert('Erro', 'Não foi possível criar a conta. Tente novamente.');
             }

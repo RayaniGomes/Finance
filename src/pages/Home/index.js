@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { View, Text, Image, FlatList, TouchableOpacity, Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../../services/api';
 import { style } from "./style";
@@ -17,24 +17,19 @@ export default function Home() {
     const [totalExpenses, setTotalExpenses] = useState(0);
     const navigation = useNavigation();
 
-    useEffect(() => {
-        // Função para carregar os dados do usuário e as contas/despesas
-        const loadUserData = async () => {
-            try {
-                const userData = await AsyncStorage.getItem('user');
-                const parsedUser = JSON.parse(userData);
-                setUser(parsedUser);
+    const loadUserData = async () => {
+        try {
+            const userData = await AsyncStorage.getItem('user');
+            const parsedUser = JSON.parse(userData);
+            setUser(parsedUser);
 
-                // Fazer as requisições para obter contas e despesas
-                await fetchAccounts(parsedUser.id);
-                await fetchExpenses(parsedUser.id);
-            } catch (error) {
-                Alert.alert('Erro', 'Não foi possível carregar os dados do usuário: ' + error.message);
-            }
-        };
-
-        loadUserData();
-    }, []);
+            // Fazer as requisições para obter contas e despesas
+            await fetchAccounts(parsedUser.id);
+            await fetchExpenses(parsedUser.id);
+        } catch (error) {
+            Alert.alert('Erro', 'Não foi possível carregar os dados do usuário: ' + error.message);
+        }
+    };
 
     const fetchAccounts = async (userId) => {
         try {
@@ -42,7 +37,6 @@ export default function Home() {
                 params: { userId }
             });
             const accountsData = response.data;
-            console.log(accountsData);
             setAccounts(accountsData);
 
             // Calcular saldo total das contas
@@ -66,6 +60,12 @@ export default function Home() {
             Alert.alert('Erro', 'Não foi possível carregar as despesas: ' + error.message);
         }
     };
+
+    useFocusEffect(
+        useCallback(() => {
+            loadUserData();
+        }, [])
+    );
 
     return (
         <View style={style.container}>
