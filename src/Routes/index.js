@@ -5,45 +5,63 @@ import Cadastro from "../pages/Cadastro";
 import Home from "../pages/Home";
 import NovaConta from "../pages/NovaConta";
 import NovaDespesa from "../pages/NovaDespesa";
+import PrivateRoute from "../components/PrivateRoute/PrivateRoute";
 
 const Stack = createNativeStackNavigator();
 
 export default function Routes() {
     return (
         <Stack.Navigator>
-            <Stack.Screen 
+            <Stack.Screen
                 name="Welcome"
                 component={Welcome}
                 options={{headerShown: false}}
             />
-            
-            <Stack.Screen 
+
+            <Stack.Screen
                 name="Login"
                 component={Login}
                 options={{headerShown: false}}
             />
 
-            <Stack.Screen 
+            <Stack.Screen
                 name="Cadastro"
                 component={Cadastro}
                 options={{headerShown: false}}
             />
 
-            <Stack.Screen 
+            <Stack.Screen
                 name="Home"
-                component={Home}
                 options={{headerShown: false}}
-            />
-            <Stack.Screen 
+            >
+                {() => (
+                    <PrivateRoute>
+                        <Home />
+                    </PrivateRoute>
+                )}
+            </Stack.Screen>
+
+            <Stack.Screen
                 name="NovaConta"
-                component={NovaConta}
                 options={{headerShown: false}}
-            />
-            <Stack.Screen 
+            >
+                {() => (
+                    <PrivateRoute>
+                        <NovaConta />
+                    </PrivateRoute>
+                )}
+            </Stack.Screen>
+
+            <Stack.Screen
                 name="NovaDespesa"
-                component={NovaDespesa}
                 options={{headerShown: false}}
-            />
+            >
+                {() => (
+                    <PrivateRoute>
+                        <NovaDespesa />
+                    </PrivateRoute>
+                )}
+            </Stack.Screen>
         </Stack.Navigator>
     );
 }
