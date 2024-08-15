@@ -18,7 +18,7 @@ export default function NovaConta() {
     const navigation = useNavigation();
 
     const formatarValor = (valor) => {
-        const valorNumerico = parseFloat(valor.replace('.', '').replace(',', '.'));
+        const valorNumerico = parseFloat(valor.replace(/\./g, '').replace(',', '.'));
         return Intl.NumberFormat('pt-BR', {
             style: 'currency',
             currency: 'BRL'
@@ -41,7 +41,8 @@ export default function NovaConta() {
             const userData = await AsyncStorage.getItem('user');
             const parsedUser = JSON.parse(userData);
 
-            const balance = parseFloat(valorFormatado.replace('R$', '').replace(',', '.').trim());
+            // Converte o valor formatado para um número correto
+            const balance = parseFloat(valorFormatado.replace('R$', '').replace(/\./g, '').replace(',', '.').trim());
 
             const response = await api.post('/accounts', {
                 bank: banco,
