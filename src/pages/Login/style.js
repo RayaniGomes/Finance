@@ -2,26 +2,27 @@ import { StyleSheet } from "react-native";
 import { cores } from "../../components/Cores";
 
 export const style = StyleSheet.create({
-    container: {
-        position: 'relative'
+    safeAreaContainer: {
+        flex: 1,
+    },
+
+    scrollViewContent: {
+        flexGrow: 1,
+    },
+
+    background: {
+        flex: 1,
+        resizeMode: 'contain',
     },
 
     containerBody: {
-        width: "100%",
-        height: "100%",
-        position: 'absolute',
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
-        marginVertical: 30,
-    },
-
-    containerLogin: {
-        flex: 2,
     },
 
     containerInput: {
-        width: "100%",
-        paddingLeft: 55,
-        paddingRight: 55,
+        paddingHorizontal: 55,
     },
 
     inputText: {
@@ -36,6 +37,7 @@ export const style = StyleSheet.create({
         width: 300,
         height: 40,
         backgroundColor: '#EFF1EE1A',
+        color: cores.branco,
         paddingLeft: 10,
         borderRadius: 10,
         borderBottomWidth: 0.5,
@@ -44,8 +46,6 @@ export const style = StyleSheet.create({
     },
 
     containerButtons: {
-        flex: 1,
-        width: '100%',
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'center',
@@ -55,22 +55,23 @@ export const style = StyleSheet.create({
         width: 120,
         height: 40,
         alignItems: 'center',
-        justifyContent:'center',
-        margin: 50,
+        justifyContent: 'center',
+        marginTop: 50,
         borderRadius: 50,
     },
-    
+
     buttonText: {
         color: cores.branco,
         fontSize: 14,
         fontWeight: '500',
     },
-    
+
     containerRegistrar: {
-        flex: 1,
-        marginBottom: 60,
+        width: 300,
+        marginTop: 10,
+        marginHorizontal: 60,
     },
-    
+
     registrarText: {
         color: '#D9D9D980',
         fontSize: 14,
