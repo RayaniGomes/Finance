@@ -51,10 +51,23 @@ export default function Home() {
         try {
             const response = await api.get(`/expenses/user/${userId}`);
             const expensesData = response.data;
-            setExpenses(expensesData);
+
+            // Filtrar despesas para exibir apenas as do mês e ano atuais
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+
+            const filteredExpenses = expensesData.filter(expense => {
+                const expenseDate = new Date(expense.date);
+                return (
+                    expenseDate.getMonth() === currentMonth &&
+                    expenseDate.getFullYear() === currentYear
+                );
+            });
+
+            setExpenses(filteredExpenses);
 
             // Calcular total das despesas
-            const total = expensesData.reduce((sum, expense) => sum + expense.amount, 0);
+            const total = filteredExpenses.reduce((sum, expense) => sum + expense.amount, 0);
             setTotalExpenses(total);
         } catch (error) {
             Alert.alert('Erro', 'Não foi possível carregar as despesas: ' + error.message);
