@@ -6,14 +6,14 @@ export default function Contas({ data }) {
     return (
         <View style={style.conta}>
             <View style={style.iconNomeTipo}>
-                <Image source={data.image} resizeMode="cover" />
+                {/*<Image source={require('../../../assets/image/bancosIcons/caixa.png')} resizeMode="cover" />*/}
                 <View>
-                    <Text style={style.nomeBanco}>{data.nome}</Text>
-                    <Text style={style.tipoConta}>{data.tipo}</Text>
+                    <Text style={style.nomeBanco}>{data.bank}</Text>
+                    <Text style={style.tipoConta}>{data.accountType}</Text>
                 </View>
             </View>
             <View style={style.valorEdite}>
-                <Text style={style.valor}>R$ {data.valor}</Text>
+                <Text style={style.valor}>R$ {data.balance.toFixed(2)}</Text>
                 <TouchableOpacity >
                     <Image
                         source={require('../../../assets/image/lapis.png')}
@@ -38,7 +38,6 @@ const style = StyleSheet.create({
     },
 
     iconNomeTipo: {
-        display: 'flax',
         flexDirection: 'row',
         alignItems: 'center',
     },
@@ -49,7 +48,7 @@ const style = StyleSheet.create({
         color: cores.branco,
         paddingLeft: 10,
     },
-    
+
     tipoConta: {
         fontSize: 10,
         fontWeight: '400',
@@ -62,7 +61,7 @@ const style = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
-    
+
     valor: {
         fontSize: 14,
         fontWeight: '700',

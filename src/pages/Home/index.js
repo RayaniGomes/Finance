@@ -1,89 +1,77 @@
-import React from "react";
-import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, Image, FlatList, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../../services/api';
 import { style } from "./style";
 import HeaderHome from "../../components/HeaderHome";
-import Balace from "../../components/Balace";
 import Contas from "../../components/Contas";
-import UltimasMovimentacoes from "../../components/UltimasMovimentações"
-
-const bancosIcons = '../../../assets/image/bancosIcons/';
-
-const listContas = [
-    {
-        id: 1,
-        image: require(`${bancosIcons}caixa.png`),
-        nome: 'caixa',
-        tipo: 'Conta corrente',
-        valor: '300,00',
-    },
-
-    {
-        id: 2,
-        image: require(`${bancosIcons}caixa.png`),
-        nome: 'caixa',
-        tipo: 'Conta poulpança',
-        valor: '5000,00',
-    },
-]
-
-const listDespesas = [
-    {
-        id: 1,
-        dia: '05/01',
-        nome: 'Padaria',
-        parcela: '1/1',
-        valor: '5,00',
-        type: 0, // 0 = despesas
-    },
-
-    {
-        id: 2,
-        dia: '05/01',
-        nome: 'Fotolivro',
-        parcela: '1/1',
-        valor: '150,0',
-        type: 1, // 1 = entrada
-    },
-
-    {
-        id: 3,
-        dia: '05/01',
-        nome: 'Shoppe',
-        parcela: '2/3',
-        valor: '80,00',
-        type: 0,
-    },
-
-    {
-        id: 4,
-        dia: '05/01',
-        nome: 'Salario',
-        parcela: '1/1',
-        valor: '350,00',
-        type: 1,
-    },
-
-    {
-        id: 5,
-        dia: '05/01',
-        nome: 'Padaria',
-        parcela: '1/1',
-        valor: '5,00',
-        type: 0,
-    },
-
-]
+import Balace from "../../components/Balace";
+import UltimasMovimentacoes from "../../components/UltimasMovimentações";
 
 export default function Home() {
+    const [user, setUser] = useState(null);
+    const [accounts, setAccounts] = useState([]);
+    const [expenses, setExpenses] = useState([]);
+    const [totalBalance, setTotalBalance] = useState(0);
+    const [totalExpenses, setTotalExpenses] = useState(0);
     const navigation = useNavigation();
+
+    useEffect(() => {
+        // Função para carregar os dados do usuário e as contas/despesas
+        const loadUserData = async () => {
+            try {
+                const userData = await AsyncStorage.getItem('user');
+                const parsedUser = JSON.parse(userData);
+                setUser(parsedUser);
+
+                // Fazer as requisições para obter contas e despesas
+                await fetchAccounts(parsedUser.id);
+                await fetchExpenses(parsedUser.id);
+            } catch (error) {
+                Alert.alert('Erro', 'Não foi possível carregar os dados do usuário: ' + error.message);
+            }
+        };
+
+        loadUserData();
+    }, []);
+
+    const fetchAccounts = async (userId) => {
+        try {
+            const response = await api.get('/accounts', {
+                params: { userId }
+            });
+            const accountsData = response.data;
+            console.log(accountsData);
+            setAccounts(accountsData);
+
+            // Calcular saldo total das contas
+            const total = accountsData.reduce((sum, account) => sum + account.balance, 0);
+            setTotalBalance(total);
+        } catch (error) {
+            Alert.alert('Erro', 'Não foi possível carregar as contas: ' + error.message);
+        }
+    };
+
+    const fetchExpenses = async (userId) => {
+        try {
+            const response = await api.get(`/expenses/user/${userId}`);
+            const expensesData = response.data;
+            setExpenses(expensesData);
+
+            // Calcular total das despesas
+            const total = expensesData.reduce((sum, expense) => sum + expense.amount, 0);
+            setTotalExpenses(total);
+        } catch (error) {
+            Alert.alert('Erro', 'Não foi possível carregar as despesas: ' + error.message);
+        }
+    };
+
     return (
-        <View style={style.container} >
+        <View style={style.container}>
+            {user && <HeaderHome nome={user.name} />}
 
-            <HeaderHome nome="Nome do usuário" />
-
-            <Balace saldo="1.000,00" despesas="500,00" />
+            <Balace saldo={totalBalance.toFixed(2)} despesas={totalExpenses.toFixed(2)} />
 
             <View style={style.sessao}>
                 <View style={style.containerLegenda}>
@@ -94,7 +82,7 @@ export default function Home() {
                 </View>
                 <View style={style.list}>
                     <FlatList
-                        data={listContas}
+                        data={accounts}
                         keyExtractor={(item) => String(item.id)}
                         renderItem={({ item }) => <Contas data={item} />}
                     />
@@ -102,7 +90,6 @@ export default function Home() {
             </View>
 
             <View style={style.sessao}>
-
                 <View style={style.containerLegenda}>
                     <Text style={style.title}>Despesas</Text>
                     <TouchableOpacity onPress={() => navigation.navigate('NovaDespesa')}>
@@ -112,7 +99,7 @@ export default function Home() {
 
                 <FlatList
                     style={style.list}
-                    data={listDespesas}
+                    data={expenses}
                     keyExtractor={(item) => String(item.id)}
                     renderItem={({ item }) => <UltimasMovimentacoes data={item} />}
                 />

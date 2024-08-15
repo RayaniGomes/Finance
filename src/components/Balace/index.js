@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { cores } from '../Cores';
 
 export default function Balace({ saldo, despesas }) {
-    const [showValue, setShowValue] = useState(false);
+    const [showValue, setShowValue] = useState(true);
 
     return (
         <View style={style.preVius}>

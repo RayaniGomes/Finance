@@ -3,15 +3,22 @@ import { View, Text, StyleSheet } from 'react-native';
 import { cores } from '../Cores';
 
 export default function Movimentacao({ data }) {
+
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+    };
+
     return (
         <View style={style.container} >
             <View style={style.diaNome}>
-                <Text style={style.dia}>{data.dia}</Text>
-                <Text style={style.dia}>{data.parcela}</Text>
-                <Text style={style.dia}>{data.nome}</Text>
+                <Text style={style.dia}>{formatDate(data.date)}</Text>
+                <Text style={style.dia}>{data.description}</Text>
             </View>
             <View >
-                <Text style={data.type === 1 ? style.entrada : style.saida}>{data.type === 1 ? `R$ ${data.valor}` : `R$ -${data.valor}`}</Text>
+                <Text style={data.amount >= 0 ? style.entrada : style.saida}>
+                    {`R$ ${data.amount.toFixed(2)}`}
+                </Text>
             </View>
         </View>
     );
@@ -45,10 +52,10 @@ const style = StyleSheet.create({
         fontWeight: '700',
         color: cores.verde,
     },
-    
+
     saida: {
         fontSize: 12,
         fontWeight: '700',
         color: cores.vermelho,
     }
-})
+});
