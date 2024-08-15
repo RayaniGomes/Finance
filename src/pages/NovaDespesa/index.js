@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { TextInputMask } from 'react-native-masked-text';
 import { RadioButton, Text as PaperText } from 'react-native-paper';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../../services/api';
 import { styles } from './style';
 import { cores } from '../../components/Cores';
 import Header from '../../components/Header';
-
-
+import { useNavigation } from '@react-navigation/native';
 
 export default function NovaDespesa() {
     const [valorFormatado, setValorFormatado] = useState('');
     const [date, setDate] = useState('');
-    const [customMaskedValue, setCustomMaskedValue] = useState('');
-    const [checked, setChecked] = useState('sim');
+    const [parcelas, setParcelas] = useState('');
+    const [descricao, setDescricao] = useState('');
+    const [isFixed, setIsFixed] = useState(true);
+    const navigation = useNavigation();
 
     const formatarValor = (valor) => {
         const valorNumerico = parseFloat(valor.replace('.', '').replace(',', '.'));
@@ -30,6 +32,32 @@ export default function NovaDespesa() {
         setValorFormatado(formatarValor(valorComVirgula));
     };
 
+    const handleSave = async () => {
+        try {
+            const userData = await AsyncStorage.getItem('user');
+            const parsedUser = JSON.parse(userData);
+
+            const amount = parseFloat(valorFormatado.replace('R$', '').replace(',', '.').trim());
+
+            const response = await api.post('/expenses', {
+                amount: amount,
+                description: descricao,
+                isFixed: isFixed,
+                date: new Date(date.split('/').reverse().join('-')),
+                userId: parsedUser.id
+            });
+
+            if (response.status === 200) {
+                Alert.alert('Sucesso', 'Despesa criada com sucesso!');
+                navigation.goBack(); // Volta para a tela anterior (Home), o que acionará o useFocusEffect na Home para recarregar os dados
+            } else {
+                Alert.alert('Erro', 'Não foi possível criar a despesa. Tente novamente.');
+            }
+        } catch (error) {
+            Alert.alert('Erro', `Erro ao criar a despesa: ${error.message}`);
+        }
+    };
+
     return (
         <View style={styles.container}>
             <Header nome={'Nova despesa'} />
@@ -40,7 +68,6 @@ export default function NovaDespesa() {
                     style={styles.input}
                     placeholder="R$ 00,00"
                     placeholderTextColor={cores.branco}
-                    placeholderStyle={{ fontSize: 14, fontWeight: '400' }}
                     keyboardType='number-pad'
                     onChangeText={handleValorChange}
                     value={valorFormatado}
@@ -75,8 +102,8 @@ export default function NovaDespesa() {
                             placeholder="x1"
                             placeholderTextColor={cores.branco}
                             keyboardType='number-pad'
-                            value={customMaskedValue}
-                            onChangeText={setCustomMaskedValue}
+                            value={parcelas}
+                            onChangeText={setParcelas}
                         />
                     </View>
                 </View>
@@ -88,7 +115,8 @@ export default function NovaDespesa() {
                     style={styles.input}
                     placeholder="Coloque a sua descrição..."
                     placeholderTextColor={cores.branco}
-                    placeholderStyle={{ fontSize: 14, fontWeight: '400' }}
+                    onChangeText={setDescricao}
+                    value={descricao}
                 />
             </View>
 
@@ -98,8 +126,8 @@ export default function NovaDespesa() {
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginEnd: 16 }}>
                         <RadioButton
                             value="sim"
-                            status={checked === 'sim' ? 'checked' : 'unchecked'}
-                            onPress={() => setChecked('sim')}
+                            status={isFixed ? 'checked' : 'unchecked'}
+                            onPress={() => setIsFixed(true)}
                             color={cores.branco}
                         />
                         <PaperText style={styles.label}>Sim</PaperText>
@@ -107,8 +135,8 @@ export default function NovaDespesa() {
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <RadioButton
                             value="não"
-                            status={checked === 'não' ? 'checked' : 'unchecked'}
-                            onPress={() => setChecked('não')}
+                            status={!isFixed ? 'checked' : 'unchecked'}
+                            onPress={() => setIsFixed(false)}
                             color={cores.branco}
                         />
                         <PaperText style={styles.label}>Não</PaperText>
@@ -116,7 +144,7 @@ export default function NovaDespesa() {
                 </View>
             </View>
 
-            <TouchableOpacity style={styles.containerButtons}>
+            <TouchableOpacity style={styles.containerButtons} onPress={handleSave}>
                 <LinearGradient
                     colors={[cores.pink, cores.laranja]}
                     start={{ x: 0, y: 0 }}
