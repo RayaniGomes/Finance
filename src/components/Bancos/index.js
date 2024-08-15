@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, Image, Modal, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
-
 import { cores } from '../Cores';
 
 const bancosIcons = '../../../assets/image/bancosIcons/';
@@ -9,7 +8,7 @@ const bancos = [
     { label: 'Banco do Brasil', value: 'bb', icon: require(`${bancosIcons}bb.png`) },
     { label: 'Banco Pan', value: 'pan', icon: require(`${bancosIcons}pan.png`) },
     { label: 'Bradesco', value: 'bradesco', icon: require(`${bancosIcons}bradesco.png`) },
-    { label: 'Caixa Economica', value: 'caixa', icon: require(`${bancosIcons}caixa.png`) },
+    { label: 'Caixa Econômica', value: 'caixa', icon: require(`${bancosIcons}caixa.png`) },
     { label: 'Itaú', value: 'itau', icon: require(`${bancosIcons}itau.png`) },
     { label: 'Mercado Pago', value: 'mercado_pago', icon: require(`${bancosIcons}mercado.png`) },
     { label: 'Nubank', value: 'nubank', icon: require(`${bancosIcons}nubank.png`) },
@@ -24,12 +23,11 @@ const PickerItem = ({ label, icon, onPress }) => (
     </TouchableOpacity>
 );
 
-export default function NovaConta() {
-    const [selectedLabel, setSelectedLabel] = useState();
+export default function Bancos({ onSelectBanco, selectedBanco }) {
     const [modalVisible, setModalVisible] = useState(false);
 
     const handleSelect = (label) => {
-        setSelectedLabel(label);
+        onSelectBanco(label);
         setModalVisible(false);
     };
 
@@ -38,7 +36,7 @@ export default function NovaConta() {
             <View style={styles.pickerContainer}>
                 <Text style={styles.label}>Banco</Text>
                 <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.pickerButton}>
-                    <Text style={styles.pickerButtonText}>{ selectedLabel || 'Selecione um banco'}</Text>
+                    <Text style={styles.pickerButtonText}>{selectedBanco || 'Selecione um banco'}</Text>
                     <Image source={require('../../../assets/image/arrowUp.png')} />
                 </TouchableOpacity>
                 <Modal
@@ -56,7 +54,7 @@ export default function NovaConta() {
                                     onPress={() => handleSelect(item.label)}
                                 />
                             )}
-                            keyExtractor={(item) => item.label}
+                            keyExtractor={(item) => item.value}
                         />
                     </View>
                 </Modal>
@@ -66,7 +64,7 @@ export default function NovaConta() {
 }
 
 const styles = StyleSheet.create({
-     pickerContainer: {
+    pickerContainer: {
         justifyContent: 'center',
         margin: 32,
     },
@@ -85,7 +83,7 @@ const styles = StyleSheet.create({
         borderBottomColor: cores.branco,
         borderBottomWidth: 1,
     },
-    
+
     pickerItemIcon: {
         width: 30,
         height: 30,
@@ -93,13 +91,13 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         resizeMode: 'cover',
     },
-    
+
     pickerItemText: {
         fontSize: 14,
         fontWeight: '400',
         color: cores.branco,
     },
-    
+
     modalContainer: {
         width: "81%",
         top: 190,
@@ -113,16 +111,16 @@ const styles = StyleSheet.create({
 
     pickerButton: {
         paddingVertical: 5,
-        flexDirection: 'row', 
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         borderBottomColor: cores.branco,
         borderBottomWidth: 1,
     },
-       
+
     pickerButtonText: {
         fontSize: 14,
         fontWeight: '400',
         color: cores.branco,
     },
-});    
+});

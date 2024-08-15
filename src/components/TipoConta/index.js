@@ -1,41 +1,25 @@
 import React, { useState } from 'react';
 import { View, Text, Image, Modal, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
-
 import { cores } from '../Cores';
 
-const bancosIcons = '../../../assets/image/bancosIcons/';
-
-const bancos = [
-    {
-        id: 1,
-        label: 'Conta corrente',
-    },
-    {
-        id: 2,
-        label: 'Conta salário',
-    },
-    {
-        id: 3,
-        label: 'Conta de pagamentos',
-    },
-    {
-        id: 4,
-        label: 'Conta polpança',
-    },
+const tiposConta = [
+    { id: 1, label: 'Conta corrente' },
+    { id: 2, label: 'Conta salário' },
+    { id: 3, label: 'Conta de pagamentos' },
+    { id: 4, label: 'Conta poupança' },
 ];
 
-const PickerItem = ({ label, icon, onPress }) => (
+const PickerItem = ({ label, onPress }) => (
     <TouchableOpacity onPress={onPress} style={styles.pickerItemContainer}>
         <Text style={styles.pickerItemText}>{label}</Text>
     </TouchableOpacity>
 );
 
-export default function NovaConta() {
-    const [selectedLabel, setSelectedLabel] = useState();
+export default function TipoConta({ onSelectTipoConta, selectedTipoConta }) {
     const [modalVisible, setModalVisible] = useState(false);
 
     const handleSelect = (label) => {
-        setSelectedLabel(label);
+        onSelectTipoConta(label);
         setModalVisible(false);
     };
 
@@ -44,7 +28,7 @@ export default function NovaConta() {
             <View style={styles.pickerContainer}>
                 <Text style={styles.label}>Tipo de conta</Text>
                 <TouchableOpacity onPress={() => setModalVisible(true)} style={styles.pickerButton}>
-                    <Text style={styles.pickerButtonText}>{selectedLabel || 'Selecione um banco'}</Text>
+                    <Text style={styles.pickerButtonText}>{selectedTipoConta || 'Selecione o tipo de conta'}</Text>
                     <Image source={require('../../../assets/image/arrowUp.png')} />
                 </TouchableOpacity>
                 <Modal
@@ -54,14 +38,14 @@ export default function NovaConta() {
                 >
                     <View style={styles.modalContainer}>
                         <FlatList
-                            data={bancos}
+                            data={tiposConta}
                             renderItem={({ item }) => (
                                 <PickerItem
                                     label={item.label}
                                     onPress={() => handleSelect(item.label)}
                                 />
                             )}
-                            keyExtractor={(item) => item.label}
+                            keyExtractor={(item) => item.id.toString()}
                         />
                     </View>
                 </Modal>
@@ -122,4 +106,4 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         color: cores.branco,
     },
-});    
+});
