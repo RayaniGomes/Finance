@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { View, Text, Image, FlatList, TouchableOpacity, Alert } from "react-native";
+import { View, Text, Image, FlatList, TouchableOpacity, ScrollView, SafeAreaView, Alert } from "react-native";
 import { useNavigation, useFocusEffect } from "@react-navigation/native";
+import { styles } from "./style";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../../services/api';
-import { style } from "./style";
 import HeaderHome from "../../components/HeaderHome";
+import Balance from "../../components/Balance";
 import Contas from "../../components/Contas";
-import Balace from "../../components/Balace";
 import UltimasMovimentacoes from "../../components/UltimasMovimentações";
 
 export default function Home() {
@@ -16,6 +16,7 @@ export default function Home() {
     const [totalBalance, setTotalBalance] = useState(0);
     const [totalExpenses, setTotalExpenses] = useState(0);
     const navigation = useNavigation();
+
 
     const loadUserData = async () => {
         try {
@@ -80,43 +81,46 @@ export default function Home() {
         }, [])
     );
 
+
     return (
-        <View style={style.container}>
-            {user && <HeaderHome nome={user.name} />}
+        <SafeAreaView style={styles.safeAreaContainer}>
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+                {user && <HeaderHome nome={user.name} />}
 
-            <Balace saldo={totalBalance.toFixed(2)} despesas={totalExpenses.toFixed(2)} />
+                <Balance saldo={totalBalance.toFixed(2)} despesas={totalExpenses.toFixed(2)} />
 
-            <View style={style.sessao}>
-                <View style={style.containerLegenda}>
-                    <Text style={style.title}>Contas</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('NovaConta')}>
-                        <Image source={require('../../../assets/image/mais.png')} />
-                    </TouchableOpacity>
+                <View style={styles.sessao}>
+                    <View style={styles.containerLegenda}>
+                        <Text style={styles.title}>Contas</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('NovaConta')}>
+                            <Image source={require('../../../assets/image/mais.png')} />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.list}>
+                        <FlatList
+                            data={accounts}
+                            keyExtractor={(item) => String(item.id)}
+                            renderItem={({ item }) => <Contas data={item} />}
+                        />
+                    </View>
                 </View>
-                <View style={style.list}>
+
+                <View style={styles.sessao}>
+                    <View style={styles.containerLegenda}>
+                        <Text style={styles.title}>Despesas</Text>
+                        <TouchableOpacity onPress={() => navigation.navigate('NovaDespesa')}>
+                            <Image source={require('../../../assets/image/mais.png')} />
+                        </TouchableOpacity>
+                    </View>
+
                     <FlatList
-                        data={accounts}
+                        style={styles.list}
+                        data={expenses}
                         keyExtractor={(item) => String(item.id)}
-                        renderItem={({ item }) => <Contas data={item} />}
+                        renderItem={({ item }) => <UltimasMovimentacoes data={item} />}
                     />
                 </View>
-            </View>
-
-            <View style={style.sessao}>
-                <View style={style.containerLegenda}>
-                    <Text style={style.title}>Despesas</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate('NovaDespesa')}>
-                        <Image source={require('../../../assets/image/mais.png')} />
-                    </TouchableOpacity>
-                </View>
-
-                <FlatList
-                    style={style.list}
-                    data={expenses}
-                    keyExtractor={(item) => String(item.id)}
-                    renderItem={({ item }) => <UltimasMovimentacoes data={item} />}
-                />
-            </View>
-        </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 }

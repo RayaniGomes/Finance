@@ -5,10 +5,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../../services/api';
 import { styles } from './style';
 import { cores } from '../../components/Cores';
+import { SafeAreaView } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import { useNavigation } from '@react-navigation/native';
 import Header from '../../components/Header';
 import Bancos from '../../components/Bancos';
 import TipoConta from '../../components/TipoConta';
-import { useNavigation } from '@react-navigation/native';
 
 export default function NovaConta() {
     const [valorFormatado, setValorFormatado] = useState('');
@@ -29,7 +31,7 @@ export default function NovaConta() {
         const valorNumerico = text.replace(/\D/g, '');
         const valorComVirgula = (valorNumerico / 100).toFixed(2).replace('.', ',');
         setValorFormatado(formatarValor(valorComVirgula));
-    };
+    };  
 
     const handleSave = async () => {
         if (!banco || !tipoConta) {
@@ -64,42 +66,45 @@ export default function NovaConta() {
     };
 
     return (
-        <View style={styles.container}>
-            <Header nome={'Nova conta'} />
-            <Bancos onSelectBanco={setBanco} selectedBanco={banco} />
-            <TipoConta onSelectTipoConta={setTipoConta} selectedTipoConta={tipoConta} />
-
-            <View style={styles.containerForms}>
-                <Text style={styles.label}>Valor em conta</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="R$ 00,00"
-                    placeholderTextColor={cores.branco}
-                    keyboardType='number-pad'
-                    onChangeText={handleValorChange}
-                    value={valorFormatado}
-                />
-            </View>
-            <View style={styles.containerForms}>
-                <Text style={styles.label}>Descrição</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Coloque a sua descrição..."
-                    placeholderTextColor={cores.branco}
-                    onChangeText={setDescricao}
-                    value={descricao}
-                />
-            </View>
-            <TouchableOpacity style={styles.containerButtons} onPress={handleSave}>
-                <LinearGradient
-                    colors={[cores.pink, cores.laranja]}
-                    start={{ x: 0, y: 0 }}
-                    end={{ x: 1, y: 0 }}
-                    style={styles.button}
-                >
-                    <Text style={styles.buttonText}>Salvar</Text>
-                </LinearGradient>
-            </TouchableOpacity>
-        </View>
+        <SafeAreaView style={styles.safeAreaContainer}>
+            <ScrollView contentContainerStyle={styles.scrollViewContent}>
+                <Header nome={'Nova conta'} />
+                <Bancos onSelectBanco={setBanco} selectedBanco={banco} />
+                <TipoConta onSelectTipoConta={setTipoConta} selectedTipoConta={tipoConta} />
+                <View style={styles.containerForms}>
+                    <Text style={styles.label}>Valor em conta</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="R$ 00,00"
+                        placeholderTextColor={cores.branco}
+                        placeholderStyle={{ fontSize: 14, fontWeight: '400' }}
+                        keyboardType='number-pad'
+                        onChangeText={handleValorChange}
+                        value={valorFormatado}
+                    />
+                </View>
+                <View style={styles.containerForms}>
+                    <Text style={styles.label}>Descrição</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Coloque a sua descrição..."
+                        placeholderTextColor={cores.branco}
+                        placeholderStyle={{ fontSize: 14, fontWeight: '400' }}
+                        onChangeText={setDescricao}
+                        value={descricao}
+                    />
+                </View>
+                <TouchableOpacity style={styles.containerButtons} onPress={handleSave}>
+                    <LinearGradient
+                        colors={[cores.pink, cores.laranja]}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={styles.button}
+                    >
+                        <Text style={styles.buttonText}>Salvar</Text>
+                    </LinearGradient>
+                </TouchableOpacity>
+            </ScrollView>
+        </SafeAreaView>
     );
 }

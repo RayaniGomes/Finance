@@ -1,10 +1,21 @@
 import { StyleSheet } from "react-native";
 import { cores } from "../../components/Cores";
 
-export const style = StyleSheet.create({
-    container: {
+export const styles = StyleSheet.create({
+    safeAreaContainer: {
         flex: 1,
         backgroundColor: cores.azulEscuro,
+    },
+    
+    scrollViewContent: {
+        flexGrow: 1,
+    },
+
+    balance: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: 32,
     },
 
     sessao: {
@@ -14,8 +25,8 @@ export const style = StyleSheet.create({
 
     containerLegenda: {
         flexDirection: 'row',
-        alignItems: 'center',
         justifyContent: 'space-between',
+        alignItems: 'center',
         paddingEnd: 16,
     },
 

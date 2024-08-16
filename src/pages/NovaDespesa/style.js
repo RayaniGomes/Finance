@@ -2,9 +2,13 @@ import { StyleSheet } from "react-native";
 import { cores } from "../../components/Cores";
 
 export const styles = StyleSheet.create({
-    container: {
+    safeAreaContainer: {
         flex: 1,
         backgroundColor: cores.azulEscuro,
+    },
+
+    scrollViewContent: {
+        flexGrow: 1,
     },
 
     containerForms: {

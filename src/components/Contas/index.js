@@ -3,21 +3,25 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { cores } from '../Cores';
 
 export default function Contas({ data }) {
+    const getFormattedBalance = () => {
+        const balance = parseFloat(data.balance);
+        return isNaN(balance) ? 0 : balance.toFixed(2);
+    };
+
     return (
-        <View style={style.conta}>
-            <View style={style.iconNomeTipo}>
-                {/*<Image source={require('../../../assets/image/bancosIcons/caixa.png')} resizeMode="cover" />*/}
+        <View style={styles.conta}>
+            <View style={styles.iconNomeTipo}>
                 <View>
-                    <Text style={style.nomeBanco}>{data.bank}</Text>
-                    <Text style={style.tipoConta}>{data.accountType}</Text>
+                    <Text style={styles.nomeBanco}>{data.bank}</Text>
+                    <Text style={styles.tipoConta}>{data.accountType}</Text>
                 </View>
             </View>
-            <View style={style.valorEdite}>
-                <Text style={style.valor}>R$ {data.balance.toFixed(2)}</Text>
-                <TouchableOpacity >
+            <View style={styles.valorEdite}>
+                <Text style={styles.valor}>R$ {getFormattedBalance()}</Text>
+                <TouchableOpacity>
                     <Image
                         source={require('../../../assets/image/lapis.png')}
-                        style={{ width: 10, height: 20 }}
+                        style={styles.editIcon}
                         resizeMode="contain"
                     />
                 </TouchableOpacity>
@@ -26,7 +30,7 @@ export default function Contas({ data }) {
     );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     conta: {
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -67,5 +71,10 @@ const style = StyleSheet.create({
         fontWeight: '700',
         color: cores.branco,
         paddingRight: 10,
+    },
+
+    editIcon: {
+        width: 10,
+        height: 20
     }
-})
+});

@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { cores } from '../Cores';
 
-export default function Balace({ saldo, despesas }) {
+export default function Balance({ saldo, despesas }) {
     const [showValue, setShowValue] = useState(true);
 
     return (

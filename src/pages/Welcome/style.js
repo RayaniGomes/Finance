@@ -3,9 +3,14 @@ import { cores } from "../../components/Cores";
 
 export const style = StyleSheet.create({
     container: {
-        position: 'relative',
+        flex: 1,
     },
 
+    background: {
+        flex: 1,
+        resizeMode: 'contain',
+    },
+    
     containerBody: {
         display: 'flex',
         position: 'absolute',

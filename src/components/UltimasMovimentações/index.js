@@ -9,6 +9,12 @@ export default function Movimentacao({ data }) {
         return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
     };
 
+    // Verifica se data.amount é um número e não é NaN
+    const getAmount = () => {
+        const amount = parseFloat(data.amount);
+        return isNaN(amount) ? 0 : amount;
+    };
+
     return (
         <View style={style.container} >
             <View style={style.diaNome}>
@@ -16,8 +22,8 @@ export default function Movimentacao({ data }) {
                 <Text style={style.dia}>{data.description}</Text>
             </View>
             <View >
-                <Text style={data.amount >= 0 ? style.entrada : style.saida}>
-                    {`R$ ${data.amount.toFixed(2)}`}
+                <Text style={getAmount() >= 0 ? style.entrada : style.saida}>
+                    {`R$ ${getAmount().toFixed(2)}`}
                 </Text>
             </View>
         </View>
